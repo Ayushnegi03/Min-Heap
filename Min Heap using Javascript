@@ -1,0 +1,86 @@
+//Min Heap
+function Min_Heap()
+{
+    this.data = [];
+  }  
+  Min_Heap.prototype.insert = function(val)
+  {
+    this.data.push(val);
+    this.bubbleUp(this.data.length-1);
+  };  
+  Min_Heap.prototype.bubbleUp = function(index) {
+    while (index > 0) {
+      var Parent = Math.floor((index + 1) / 2) - 1;     
+      if (this.data[Parent] > this.data[index]) {
+        var tmp = this.data[Parent];
+        this.data[Parent] = this.data[index];
+        this.data[index] = tmp;
+      }
+      
+      index = Parent;
+    }
+  };  
+  Min_Heap.prototype.extractMin = function() {
+    var min = this.data[0];
+    this.data[0] = this.data.pop();
+    this.bubbleDown(0);    
+    return min;
+  };
+  
+  Min_Heap.prototype.bubbleDown = function(index) {
+    while (true)
+    {
+      var Child = (index+1)*2;
+      var Sibling = Child - 1;
+      var ToSwap = null;
+      if (this.data[index] > this.data[Child]) {
+        ToSwap = Child;
+      }
+      if (this.data[index] > this.data[Sibling] && (this.data[Child] == null || (this.data[Child] !== null && this.data[Sibling] < this.data[Child]))) {
+          ToSwap = Sibling;
+      }
+      if (ToSwap == null) {
+        break;
+      }      
+      var tmp = this.data[ToSwap];
+      this.data[ToSwap] = this.data[index];
+      this.data[index] = tmp;      
+      index = ToSwap;
+    }
+  }; 
+  var Heap = new Min_Heap();  
+  console.log("Min Heap:");
+  Heap.insert(1)
+  Heap.insert(3);
+  Heap.insert(4);
+  Heap.insert(9);
+  Heap.insert(5);
+  Heap.insert(2);
+  Heap.insert(10);
+  Heap.insert(6);  
+  Heap.insert(17);
+  Heap.insert(15);  
+  console.log(Heap.extractMin());
+  console.log(Heap.extractMin());
+  console.log(Heap.extractMin());
+  console.log(Heap.extractMin());
+  console.log(Heap.extractMin());
+  console.log(Heap.extractMin());
+  console.log(Heap.extractMin());
+  console.log(Heap.extractMin());
+  console.log(Heap.extractMin());
+  console.log(Heap.extractMin());
+// Output-
+// Min Heap:
+//1
+//2
+//3
+//4
+//5
+//6
+//9
+//10
+//15
+//17
+
+  
