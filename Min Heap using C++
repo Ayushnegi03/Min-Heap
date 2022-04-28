@@ -1,0 +1,51 @@
+//Min Heap
+//Minimum Heap is a method of arranging elements in a binary search tree
+//where value of the parent node is lesser than that of it's child nodes.
+#include <iostream>
+#include <conio.h>
+using namespace std;
+void min_heapify(int *a,int i)
+{
+    int j, temp;
+    temp = a[i];
+    j = 2 * i;
+    while (j <= 8)
+    {
+        if (j < 8 && a[j+1] < a[j])
+            j = j + 1;
+        if (temp < a[j])
+            break;
+        else if (temp >= a[j])
+        {
+            a[j/2] = a[j];
+            j = 2 * j;
+        }
+    }
+    a[j/2] = temp;
+    return;
+}
+void build_minheap(int *a)
+{
+    int i;
+    for(i = 4; i >= 1; i--)
+    {
+        min_heapify(a,i);
+    }
+}
+int main()
+{
+    int  i, x;
+    int a[20]={1,6,23,1,21,5,10,15};
+    build_minheap(a);
+    cout<<"Here is a Min Heap"<<endl;
+    cout<<"Min Heap\n";
+    for (i = 1; i <= 8; i++)
+    {
+        cout<<a[i]<<"\t";
+    }
+    getch();
+}
+//Output-
+//Here is a Min Heap 
+//Min Heap
+//0   5   1   21   6   10   15   23
