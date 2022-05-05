@@ -1,51 +1,106 @@
 //Min Heap
 //Minimum Heap is a method of arranging elements in a binary search tree
 //where value of the parent node is lesser than that of it's child nodes.
-#include <iostream>
-#include <conio.h>
+#include<iostream>
 using namespace std;
-void min_heapify(int *a,int i)
+class heap
 {
-    int j, temp;
-    temp = a[i];
-    j = 2 * i;
-    while (j <= 8)
+    int *element;
+    int count;
+public:
+heap(int size)
+{
+    element=new int[size];
+    count=0;
+    
+}
+void swap(int a,int b)
+{
+    int temp;
+    temp=element[a];
+    element[a]=element[b];
+    element[b]=temp;
+}
+void heapup(int root,int bottom)
+{
+    if(bottom>root)
     {
-        if (j < 8 && a[j+1] < a[j])
-            j = j + 1;
-        if (temp < a[j])
-            break;
-        else if (temp >= a[j])
+        int parent=(bottom-1)/2;
+        if(element[parent]>element[bottom])
         {
-            a[j/2] = a[j];
-            j = 2 * j;
+            swap(parent,bottom);
+            heapup(root,parent);
         }
     }
-    a[j/2] = temp;
-    return;
 }
-void build_minheap(int *a)
+void enqueue(int a)
 {
-    int i;
-    for(i = 4; i >= 1; i--)
+    element[count]=a;
+    heapup(0,count);
+    count++;
+}
+void heapdown(int root,int bottom)
+{
+    int min,leftchild,rightchild;
+    rightchild=(2*root)+2;
+    leftchild=(2*root)+1;
+    if(leftchild<=bottom)
     {
-        min_heapify(a,i);
+        if(leftchild==bottom)
+        {
+            min=leftchild;
+        }
+        else
+        {
+            if(element[leftchild]>=element[rightchild])
+            {
+                min=rightchild;
+            }
+            else
+            {
+                min=leftchild;
+            }
+            if(element[root]>element[min])
+            {
+                swap(root,min);
+                heapdown(min,bottom);
+                
+            }
+        }
     }
 }
+void dequeue()
+{
+    count--;
+    element[0]=element[count];
+    heapdown(0,count);
+}
+void show()
+{
+    for(int i=0;i<count;i++)
+    {
+        cout<<element[i]<<" ";
+    }
+}
+};
 int main()
 {
-    int  i, x;
-    int a[20]={1,6,23,1,21,5,10,15};
-    build_minheap(a);
-    cout<<"Here is a Min Heap"<<endl;
-    cout<<"Min Heap\n";
-    for (i = 1; i <= 8; i++)
-    {
-        cout<<a[i]<<"\t";
-    }
-    getch();
+    heap h1(20);
+    h1.enqueue(10);
+    h1.enqueue(5);
+    h1.enqueue(20);
+    h1.enqueue(7);
+    h1.enqueue(12);
+    h1.enqueue(9);
+    h1.enqueue(7);
+    h1.enqueue(21);
+    h1.enqueue(19);
+    h1.show();
+    h1.dequeue();
+    cout<<"\nShow:\n";
+    h1.show();
 }
 //Output-
-//Here is a Min Heap 
-//Min Heap
-//0   5   1   21   6   10   15   23
+//5 7 7 10 12 20 9 21 19 
+//Show:
+//7 7 9 10 12 20 19 21 
