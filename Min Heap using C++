@@ -1,106 +1,73 @@
 //Min Heap
 //Minimum Heap is a method of arranging elements in a binary search tree
 //where value of the parent node is lesser than that of it's child nodes.
-#include<iostream>
+#include <iostream>
+#include <vector>
 using namespace std;
-class heap
+void swap(int *a, int *b)
 {
-    int *element;
-    int count;
-public:
-heap(int size)
-{
-    element=new int[size];
-    count=0;
-    
+  int t = *b;
+  *b = *a;
+  *a = t;
 }
-void swap(int a,int b)
+void heap(vector<int> &hT, int i)
 {
-    int temp;
-    temp=element[a];
-    element[a]=element[b];
-    element[b]=temp;
+  int Size = hT.size();
+  int Large = i;
+  int L = 2 * i + 1;
+  int R = 2 * i + 2;
+  if (L < Size && hT[L] > hT[Large])
+    Large = L;
+  if (R < Size && hT[R] > hT[Large])
+    Large = R;
+
+  if (Large != i)
+  {
+    swap(&hT[i], &hT[Large]);
+    heap(hT, Large);
+  }
 }
-void heapup(int root,int bottom)
+void insert(vector<int> &hT, int Num)
 {
-    if(bottom>root)
+  int Size = hT.size();
+  if (Size == 0)
+  {
+    hT.push_back(Num);
+  }
+  else
+  {
+    hT.push_back(Num);
+    for (int i = (Size / 2) - 1; i >=0; i--)
     {
-        int parent=(bottom-1)/2;
-        if(element[parent]>element[bottom])
-        {
-            swap(parent,bottom);
-            heapup(root,parent);
-        }
+      heap(hT, i);
     }
+  }
 }
-void enqueue(int a)
+void PrintArray(vector<int> &hT)
 {
-    element[count]=a;
-    heapup(0,count);
-    count++;
+  for (int i =  hT.size()-1; i >=0; --i)
+    cout << hT[i] << " ";
+  cout << "\n";
 }
-void heapdown(int root,int bottom)
-{
-    int min,leftchild,rightchild;
-    rightchild=(2*root)+2;
-    leftchild=(2*root)+1;
-    if(leftchild<=bottom)
-    {
-        if(leftchild==bottom)
-        {
-            min=leftchild;
-        }
-        else
-        {
-            if(element[leftchild]>=element[rightchild])
-            {
-                min=rightchild;
-            }
-            else
-            {
-                min=leftchild;
-            }
-            if(element[root]>element[min])
-            {
-                swap(root,min);
-                heapdown(min,bottom);
-                
-            }
-        }
-    }
-}
-void dequeue()
-{
-    count--;
-    element[0]=element[count];
-    heapdown(0,count);
-}
-void show()
-{
-    for(int i=0;i<count;i++)
-    {
-        cout<<element[i]<<" ";
-    }
-}
-};
 int main()
 {
-    heap h1(20);
-    h1.enqueue(10);
-    h1.enqueue(5);
-    h1.enqueue(20);
-    h1.enqueue(7);
-    h1.enqueue(12);
-    h1.enqueue(9);
-    h1.enqueue(7);
-    h1.enqueue(21);
-    h1.enqueue(19);
-    h1.show();
-    h1.dequeue();
-    cout<<"\nShow:\n";
-    h1.show();
+  vector<int> Heap;
+  
+ 
+  insert(Heap, 9);
+  insert(Heap, 5);
+  insert(Heap, 6);
+  
+  insert(Heap, 4);
+  insert(Heap, 14);
+  insert(Heap, 7);
+  insert(Heap, 25);
+  insert(Heap, 2);
+  insert(Heap, 3);
+  insert(Heap, 1);
+  
+  cout << "Min-Heap array: ";
+  PrintArray(Heap);
 }
 //Output-
-//5 7 7 10 12 20 9 21 19 
-//Show:
-//7 7 9 10 12 20 19 21 
+//Min Heap array: 1 3 2 6 7 5 4 14 9 25
